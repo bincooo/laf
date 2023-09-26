@@ -1,4 +1,4 @@
-Human: {{question}}
+{{question}}
 
 </plot>
 The plot pauses here to emphasize the requirements you need to complete.
