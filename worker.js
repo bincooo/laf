@@ -1,5 +1,5 @@
-const baseUrl = 'https://raw.githubusercontent.com/bincooo/cdn/main';
-const suffix = ".txt"
+const baseUrl = "https://raw.githubusercontent.com/bincooo/worker-laf/main";
+const suffix = ".txt";
 const Kv = {
   200: 'ok',
   302: 'Move temporarily',
