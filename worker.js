@@ -37,18 +37,8 @@ function _remoteUrl(pathname) {
   return config.baseURL + pathname + config.suffix;
 }
 
-function _newResponse(code, data) {
-  var blob
-  switch (typeof data) {
-    case 'string':
-    case 'number':
-      blob = new Blob([data]);
-      break
-    case 'object':
-      blob = new Blob([JSON.stringify(data, null, 2)], {type : 'application/json'});
-    default:
-      blob = new Blob();
-  }
+function _newResponse(code) {
+  var blob = new Blob()
   var init = { status: code, statusText: Kv[code] ?? "" };
   return new Response(blob, init);
 }
@@ -64,7 +54,7 @@ export default {
   async fetch (request, env, ctx) {
     const { pathname } = _parseRrequest(request)
     if (pathname == "" || pathname == "/") {
-        return _newResponse(200, {version: 'v1.0.0', description: 'github: bincooo/worker-laf'});
+      return Response.json({version: 'v1.0.0', description: 'github: bincooo/worker-laf'});
     }
 
     const data = await request.json();
@@ -72,9 +62,8 @@ export default {
     const response = await fetch(modifiedRequest);
 
 
-    const status = await response.status()
-    if (status != 200) {
-      return _newResponse(status)
+    if (response.status != 200) {
+      return _newResponse(response.status)
     }
 
     let content = await response.text();
