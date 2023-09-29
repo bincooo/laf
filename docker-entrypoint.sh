@@ -6,7 +6,7 @@ echo '|                   please wait ...                    |'
 echo '+------------------------------------------------------+'
 echo ' '
 
-
+# 换成自己的
 git clone https://github.com/bincooo/worker-laf.git /app/main
 cd /app/main
 pnpm i
