@@ -1,10 +1,7 @@
-FROM bincooo/chrome-vnc:latest
+FROM node:19.1.0-alpine3.16
 
 ADD . /app
 WORKDIR /app
 
-RUN npm install
-#ENTRYPOINT ["tail","-f","/dev/null"]
-ENTRYPOINT ["/bin/bash", "/app/docker-entrypoint.sh"]
-# Xvfb :99 -ac & export DISPLAY=:99
-# x11vnc -display :99 -forever -bg -o /var/log/x11vnc.log -rfbport 5900
+RUN pnpm install
+ENTRYPOINT ["pnpm", "dev"]

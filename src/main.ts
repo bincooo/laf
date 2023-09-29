@@ -42,9 +42,9 @@ async function execution(request: Request, response: Response) {
   }
 }
 
-async function update(response: Response) {
+async function update(_: Request, response: Response) {
   const buffer = execSync('git pull')
-  response.send(buffer)
+  response.send(buffer.toString())
 }
 
 async function main() {
