@@ -21,7 +21,7 @@ async function execution(request: Request, response: Response) {
     return
   }
 
-  const t = request.query['t'] ?? ''
+  let t = request.query['t'] ?? ''
 
   try {
     if (t) {
