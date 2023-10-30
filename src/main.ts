@@ -21,18 +21,16 @@ async function execution(request: Request, response: Response) {
     return
   }
 
-  const record = request.query['record']
-  if (!record) {
-    response.status(500)
-    response.json({error: '模版不存在' })
-    return
-  }
+  const t = request.query['t'] ?? ''
 
   try {
-    const tmpl = fs.readFileSync([tpl, record, suffix].join(''))
-    const scriptCode = fs.readFileSync([script, request.path, '.js'].join(''))
-    const callback = new Function(scriptCode.toString())
-    callback(request, response, tmpl.toString())
+    if (t) {
+       t = fs.readFileSync([tpl, t, suffix].join('')).toString()
+    }
+
+    const code = fs.readFileSync([script, request.path, '.js'].join(''))
+    const callback = new Function(code.toString())
+    callback(request, response, t)
   } catch(err) {
     response.status(500)
     response.json({
