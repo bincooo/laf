@@ -15,6 +15,10 @@ try {
     let content = template
     console.log('data: ', data)
     if (data && typeof(data) == 'object') {
+        if (data.question == "/ping") {
+            response.json({ result: data.question })
+            return
+        }
         for (let k in data) {
             content = content.replaceAll(`{{${k}}}`, data[k])
         }
