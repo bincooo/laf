@@ -14,10 +14,9 @@ const
 // dotenv.config()
 async function execution(request: Request, response: Response) {
   if (request.path == '/') {
-    response.json({
-      version: 'v1.0.0',
-      description: 'github: bincooo/worker-laf'
-    })
+    const index = fs.readFileSync('index.html').toString()
+    response.writeHead(200, {'Content-Type':'text/html'})
+    response.end(index)
     return
   }
 
