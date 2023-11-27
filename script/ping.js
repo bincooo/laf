@@ -14,11 +14,11 @@ try {
     console.log('data: ', data)
     if (data && typeof(data) == 'object') {
         if (data.question == "/ping") {
-            response.json({ result: true })
+            response.json({ result: false })
             return
         }
     }
-    response.json({ result: false })
+    response.json({ result: true })
 } catch(err) {
     response.status(500)
     response.json({
