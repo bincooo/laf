@@ -19,8 +19,8 @@ try {
         if (pre) {
             history = [
                 {
-                    "role": "assistant",
-                    "content": pre
+                    "obj": "AI",
+                    "value": pre
                 },
                 ...history
             ]
