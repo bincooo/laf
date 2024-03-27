@@ -6,8 +6,9 @@ const
 
 try {
 
-    const buffer = request.body
-    const func = new Function(buffer.toString())
+    const obj = request.body
+    debugger
+    const func = new Function(obj.str)
     const result = func.apply(global, [request, template])
     response.json({
         result
