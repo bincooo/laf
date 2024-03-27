@@ -1,5 +1,4 @@
-import dotenv from 'dotenv-safe'
-import express, { Request, Response, NextFunction } from 'express'
+import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 
@@ -28,12 +27,12 @@ async function execution(request: Request, response: Response) {
     }
 
     const code = fs.readFileSync([script, request.path, '.js'].join(''))
-    const callback = new Function(code.toString())
-    callback(request, response, t)
-  } catch(err) {
+    const func = new Function(code.toString())
+    func.apply(global, [request, response, t])
+  } catch(err: any) {
     response.status(500)
     response.json({
-      error: err?.toString()
+      error: err.toString()
     })
     return
   }
@@ -47,6 +46,11 @@ async function update(_: Request, response: Response) {
 async function main() {
   const app = express()
   app.use(morgan('dev'))
+  app.use(bodyParser.raw({
+    limit: '1mb',
+    inflate: true,
+    type: 'text/plain'
+  }))
   app.use(bodyParser.json({ limit: '1mb' }))
   app.use(bodyParser.urlencoded({
       extended: true
