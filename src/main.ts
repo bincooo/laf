@@ -30,6 +30,7 @@ async function execution(request: Request, response: Response) {
     const func = new Function(code.toString())
     func.apply(global, [request, response, t])
   } catch(err: any) {
+    console.error(err)
     response.status(500)
     response.json({
       error: err.toString()

@@ -14,6 +14,7 @@ try {
     })
 
 } catch(err) {
+    console.error(err)
     response.status(500)
     response.json({
       error: err?.toString()
