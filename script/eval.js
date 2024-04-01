@@ -1,14 +1,12 @@
-const 
-    request  = arguments[0],
-    response = arguments[1],
-    template = arguments[2]
+const response = arguments[1]
 
 
 try {
 
-    const buffer = request.body
+    const buffer = arguments[0].body
     const func = new Function(buffer.toString())
-    const result = func.apply(global, [request, template])
+    // [0] req, [1] tools = {}
+    const result = func.apply(global, [arguments[0], arguments[3]])
     response.json({
         result
     })

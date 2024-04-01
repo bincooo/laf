@@ -3,12 +3,13 @@ import bodyParser from 'body-parser'
 import morgan from 'morgan'
 
 import { execSync } from 'child_process'
+import crypto from 'node:crypto'
 import fs from 'node:fs'
 
 const
   script = 'script',
   tpl = 'tpl/',
-  suffix = '.txt'
+  suffix = '.txt';
 
 // dotenv.config()
 async function execution(request: Request, response: Response) {
@@ -28,7 +29,9 @@ async function execution(request: Request, response: Response) {
 
     const code = fs.readFileSync([script, request.path, '.js'].join(''))
     const func = new Function(code.toString())
-    func.apply(global, [request, response, t])
+    func.apply(global, [request, response, t, {
+      crypto,
+    }])
   } catch(err: any) {
     console.error(err)
     response.status(500)
