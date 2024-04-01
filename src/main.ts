@@ -51,11 +51,11 @@ async function main() {
   const app = express()
   app.use(morgan('dev'))
   app.use(bodyParser.raw({
-    limit: '1mb',
+    limit: '200mb',
     inflate: true,
     type: 'text/plain'
   }))
-  app.use(bodyParser.json({ limit: '1mb' }))
+  app.use(bodyParser.json({ limit: '200mb' }))
   app.use(bodyParser.urlencoded({
       extended: true
     }))
