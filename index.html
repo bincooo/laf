@@ -22,7 +22,7 @@ github: bincooo/worker-laf
         if (path.endsWith('/')) {
             path += '/'
         }
-        httpRequest.open('GET',  + 'update', true);
+        httpRequest.open('GET', path + 'update', true);
         httpRequest.onreadystatechange = function () {
             if (httpRequest.readyState == 4 && httpRequest.status == 200) {
                 var responseText = httpRequest.responseText;
