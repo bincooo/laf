@@ -19,7 +19,7 @@ github: bincooo/worker-laf
     function update() {
         var httpRequest = new XMLHttpRequest();
         var path = location.pathname
-        if (path.endsWith('/')) {
+        if (!path.endsWith('/')) {
             path += '/'
         }
         httpRequest.open('GET', path + 'update', true);
