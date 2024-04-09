@@ -29,7 +29,7 @@ createSandbox = (global) => {
         }
     });
     const sandbox = (code, ...args) => {
-        Function("proxy", `with(proxy) { ${code} }`).bind(proxy)(...args);
+        return Function("proxy", `with(proxy) { ${code} }`).bind(proxy)(...args);
     };
     sandbox.context = context;
     return sandbox;
