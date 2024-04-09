@@ -1,4 +1,39 @@
-const response = arguments[1]
+const response = arguments[1];
+
+// 制作一个简单的沙箱
+createSandbox = (global) => {
+    const context = Object.create(null);
+    const proxy = new Proxy(context, {
+        has: () => true,
+        get: (target, prop) => {
+            switch (prop) {
+                case "globalThis":
+                case "window":
+                case "parent":
+                case "self":
+                    return proxy;
+                case "eval":
+                case "function":
+                    return undefined;
+                default:
+                    if (prop in target) {
+                        return target[prop];
+                    }
+                    const value = global[prop];
+                    if (typeof value === "function" && !value.prototype) {
+                        return value.bind(global);
+                    }
+
+                    return value;
+            }
+        }
+    });
+    const sandbox = (code, ...args) => {
+        Function("proxy", `with(proxy) { ${code} }`).bind(proxy)(...args);
+    };
+    sandbox.context = context;
+    return sandbox;
+};
 
 
 try {
@@ -7,9 +42,10 @@ try {
     console.log("======================== START EVAL ========================")
     console.log(buffer.toString())
     console.log("========================= END EVAL =========================")
-    const func = new Function(buffer.toString())
+    // const func = new Function(buffer.toString())
+    const vmSandbox = createSandbox(global)
     // [0] req, [1] tools = {}
-    const result = func.apply(global, [arguments[0], arguments[3]])
+    const result = vmSandbox(buffer.toString(), arguments[3])
     response.json({
         result
     })
