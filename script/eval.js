@@ -29,7 +29,7 @@ createSandbox = (global) => {
         }
     });
     const sandbox = (code, ...args) => {
-        return Function("proxy", `with(proxy) { ${code} }`).bind(proxy)(...args);
+        return Function("tools", `with(tools) { ${code} }`).bind(proxy)(...args);
     };
     sandbox.context = context;
     return sandbox;
@@ -42,9 +42,7 @@ try {
     console.log("======================== START EVAL ========================")
     console.log(buffer.toString())
     console.log("========================= END EVAL =========================")
-    // const func = new Function(buffer.toString())
     const vmSandbox = createSandbox(global)
-    // [0] req, [1] tools = {}
     const result = vmSandbox(buffer.toString(), arguments[3])
     response.json({
         result
